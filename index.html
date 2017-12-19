@@ -1,0 +1,55 @@
+<html>
+<head>
+  <title>The Genie of Hoisting</title>
+  <link rel="stylesheet" href="app.css"></link>
+</head>
+<body>
+
+<section class="explanation">
+  <h1 class="title">The Genie of Hoisting</h1>
+  <p>Intro text.</p>
+  <h2 class="title">The rules of the Game of Life</h2>
+  <dl>
+    <dt><b>For a space that is 'populated':</b></dt>
+    <dd>Each cell with one or no neighbors dies, as if by solitude.</dd>
+    <dd>Each cell with four or more neighbors dies, as if by overpopulation.</dd>
+    <dd>Each cell with two or three neighbors survives.</dd>
+  <br />
+    <dt><b>For a space that is 'empty' or 'unpopulated'</b></dt>
+    <dd>Each cell with three neighbors becomes populated.</dd>
+  </dl>
+  <h2 class="title">Legend</h2>
+  <ul>
+    <li>Living cells are represented by circles.</li>
+    <li>The acting cell whose rules were just evaluated will have its square highlighted in light yellow.</li>
+    <li>Source cells for a rule application (e.g. when a cell becomes populated as a result of a certain number of neighbors, the source cells are the neighbors) are bordered in blue.</li>
+    <li>Target cells for a rule application (e.g. when a cell dies as a result of a certain number of neighbors, the dying cell is the target) are bordered in red.</li>
+  </ul>
+</section>
+
+<section>
+  <svg width="500" height="500">
+    <g id="cells-root"></g>
+  </svg>
+
+  <div id="logs-container">
+    <h2 class="title">EVENT LOGS</h2>
+    <ul id="logs-root">
+    </ul>
+  </div>
+</section>
+
+<section>
+  <button id="step-button">Advance one time step</button>
+  <button id="generation-button">Advance to the next generation</button>
+</section>
+
+<br />
+<br />
+<br />
+<br />
+
+<script src="index.js"></script>
+
+</body>
+</html>

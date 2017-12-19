@@ -1,0 +1,120 @@
+body {
+  font-family: 'helvetica neue';
+  font-size: 24px;
+  font-weight: 200;
+  background-color: #eee;
+}
+
+section {
+  display: flex;
+  flex-wrap: wrap;
+  margin: 1em;
+  justify-content: center;
+}
+
+.explanation {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+a:link {
+  color: #0cfb6c;
+  text-decoration: none;
+  font-weight: bolder;
+}
+
+a:visited {
+  color: #09c153;
+}
+
+.cell circle {
+  fill: #0cbb5c;
+}
+
+.frame {
+  fill: none;
+  stroke-width: 1;
+  stroke: #888;
+}
+
+#logs-container {
+  width: 500px;
+  height: 500px;
+  overflow-y: scroll;
+  margin-left: 1em;
+  padding-left: 1em;
+}
+
+.title {
+  font-family: futura;
+  font-weight: 200;
+  text-transform: uppercase;
+}
+
+h1 {
+  font-size: 3em;
+}
+
+h2 {
+  font-size: 1.8em;
+}
+
+#logs-container h2 {
+  margin-top: 0;
+}
+
+#logs-container ul {
+  list-style-type: none;
+  padding-left: 0;
+}
+
+.log {
+  border: 1px solid #333;
+  padding: 1em;
+  border-radius: 1em;
+  margin-bottom: 1em;  
+}
+
+button {
+  margin-top: 1em;
+  margin-left: 0.25em;
+  margin-right: 0.25em;
+  line-height: 1.5em;
+  padding-top: 11px;
+  padding-bottom: 11px;
+  padding-left: 32px;
+  padding-right: 32px;
+  border-radius: 1.5em;
+  text-transform: uppercase;
+  text-align: center;
+  vertical-align: middle;
+  font-family: 'Helvetica Neue', Helvetica, Arial, 'Yu Gothic UI', sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  letter-spacing: 0.1em;
+  border: 1px solid #333;
+  cursor: pointer;
+}
+
+.instigator .frame {
+  fill: hsla(60, 70%, 70%, 0.3);
+}
+
+.frame.source {
+  stroke: blue;
+  stroke-width: 4;
+}
+
+.frame.target {
+  stroke: red;
+  stroke-width: 4;
+}
+
+dd {
+  margin: 0.5em;
+}
+
+pre {
+  font-size: 0.6em;
+}

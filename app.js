@@ -1,28 +1,19 @@
 var Automaton = require('cellular-automaton');
 var sortCellsByDist = require('sort-cells-by-dist');
-var rules = require('./rules');
+var cellDefs = require('./cell-defs');
 var curry = require('lodash.curry');
 var flatten = require('lodash.flatten');
 var pluck = require('lodash.pluck');
 var compact = require('lodash.compact');
 var d3 = require('d3-selection');
-var accessor = require('accessor')();
-var Crown = require('csscrown');
-
-var crown = Crown({
-  crownClass: 'instigator'
-});
-
-const cellSize = 100;
-
-var cellsRoot = d3.select('#cells-root');
-var logsRoot = d3.select('#logs-root');
+var renderCells = require('./dom/render-cells');
+var renderLogs = require('./dom/render-logs');
 
 var initialMap = `
       xoxox
       xxoox
       xoxxo
-      oooxx
+      oopxx
       oxxxo
     `;
 
@@ -30,18 +21,7 @@ var initialMap = `
   var accumulatedLogs;
   var automaton = Automaton({
     cellMap: initialMap,
-    cellDefs: {
-      o: {
-        mapSymbol: 'o',
-        type: 'populated',
-        rules: [rules.solitude, rules.overpopulation]
-      },
-      x: {
-        mapSymbol: 'x',
-        type: 'empty',
-        rules: [rules.populate]
-      }
-    },
+    cellDefs,
     orderingFn: curry(sortCellsByDist)({ col: 0, row: 0 })
   });
 
@@ -90,74 +70,4 @@ function render({ cells, logs, latestLogs }) {
 function renderControls({ onStep, onGeneration }) {
   d3.select('#step-button').on('click', onStep);
   d3.select('#generation-button').on('click', onGeneration);
-}
-
-function renderCells({ cells, instigatorId, sourceIds, targetIds }) {
-  var cellSel = cellsRoot.selectAll('.cell').data(cells, accessor());
-  cellSel.exit().remove();
-
-  var newCellSel = cellSel
-    .enter()
-    .append('g')
-    .classed('cell', true)
-    .attr('id', accessor())
-    .attr('transform', getCellTransform);
-
-  newCellSel
-    .append('circle')
-    .attr('r', cellSize * 0.4)
-    .attr('cx', cellSize / 2)
-    .attr('cy', cellSize / 2);
-  newCellSel
-    .append('rect')
-    .attr('width', cellSize)
-    .attr('height', cellSize)
-    .classed('frame', true);
-
-  var updateSel = newCellSel.merge(cellSel);
-  updateSel.select('circle').attr('visibility', getCellVisibility);
-  updateSel
-    .select('.frame')
-    .classed('target', cellIsTarget)
-    .classed('source', cellIsSource);
-
-  if (instigatorId) {
-    crown(document.getElementById(instigatorId));
-  }
-
-  function cellIsTarget(cell) {
-    return targetIds && targetIds.indexOf(cell.id) !== -1;
-  }
-
-  function cellIsSource(cell) {
-    return sourceIds && sourceIds.indexOf(cell.id) !== -1;
-  }
-}
-
-function renderLogs({ logs }) {
-  var logSel = logsRoot.selectAll('.log').data(logs);
-  logSel.exit().remove();
-
-  var newLogSel = logSel
-    .enter()
-    .append('li')
-    .classed('log', true);
-  newLogSel.append('pre');
-
-  newLogSel
-    .merge(logSel)
-    .select('pre')
-    .text(getLogJSON);
-}
-
-function getCellVisibility(cell) {
-  return cell.type === 'populated' ? 'visibility' : 'hidden';
-}
-
-function getCellTransform(cell) {
-  return `translate(${cell.col * cellSize}, ${cell.row * cellSize})`;
-}
-
-function getLogJSON(log) {
-  return JSON.stringify(log, null, 2);
 }

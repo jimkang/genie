@@ -66,7 +66,7 @@ function poops(cell, neighbors, changeCellType) {
   var unpopulatedNeighbors = neighbors.filter(doesNotTakeSpace);
   if (unpopulatedNeighbors.length > 0) {
     // TODO: Pick from neighbors at random.
-    var targetCell = unpopulatedNeighbors[0];    
+    var targetCell = unpopulatedNeighbors[0];
     changeCellType(targetCell, 'poo');
     log = {
       instigator: cell.id,

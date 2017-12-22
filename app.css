@@ -28,7 +28,9 @@ a:visited {
   color: #09c153;
 }
 
-.cell circle {
+.cell .symbol {
+  font-size: 60px; /* 60% of cellSize */
+  text-anchor: middle;
 }
 
 .frame {

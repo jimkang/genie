@@ -11,8 +11,8 @@ var renderLogs = require('./dom/render-logs');
 
 var initialMap = `
       xoxox
-      xxoox
-      xoxxo
+      xxfox
+      foxxo
       oopxx
       oxxxo
     `;

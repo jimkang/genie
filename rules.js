@@ -16,6 +16,21 @@ function solitude(cell, neighbors, changeCellType) {
   return log;
 }
 
+function aging(cell) {
+  if (isNaN(cell.age)) {
+    cell.age = 1;
+  } else {
+    cell.age += 1;
+  }
+  return {
+    instigator: cell.id,
+    sources: [cell.id],
+    targets: [cell.id],
+    event: 'aging',
+    details: 'aged one step'
+  };
+}
+
 function overpopulation(cell, neighbors, changeCellType) {
   var log;
   var populatedNeighbors = neighbors.filter(takesSpace);
@@ -96,5 +111,6 @@ module.exports = {
   overpopulation,
   populate,
   selfDestruct,
-  poops
+  poops,
+  aging
 };

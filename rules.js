@@ -51,7 +51,7 @@ function populate(cell, neighbors, changeCellType) {
   var log;
   var livingNeighbors = neighbors.filter(isAlive);
   if (livingNeighbors.length >= 3) {
-    changeCellType(cell, 'populated');
+    changeCellType(cell, 'person');
     log = {
       instigator: cell.id,
       sources: [pluck(livingNeighbors, 'id')],

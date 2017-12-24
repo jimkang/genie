@@ -4,7 +4,7 @@ var adjustableRules = require('./adjustable-rules');
 module.exports = {
   o: {
     mapSymbol: 'o',
-    type: 'populated',
+    type: 'person',
     takesSpace: true,
     nutrition: 3,
     living: true,

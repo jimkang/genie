@@ -13,7 +13,7 @@ var crown = Crown({
 // };
 
 var symbolsForTypes = {
-  populated: '🚶',
+  person: '🚶',
   poo: '💩',
   food: '🍔'
 };

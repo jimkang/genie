@@ -94,6 +94,54 @@ function poops(cell, neighbors, changeCellType) {
   return log;
 }
 
+function metabolism(cell) {
+  if (cell.living && !isNaN(cell.nutrition)) {
+    cell.nutrition -= 1;
+    return {
+      instigator: cell.id,
+      source: [cell.id],
+      target: [cell.id],
+      event: 'metabolize',
+      details: 'Metabolized. Nutrition reduced to ' + cell.nutrition
+    };
+  }
+}
+
+function eating(cell, neighbors, changeCellType) {
+  var nearbyFood = neighbors.filter(isFood);
+  // TODO: Different food choosing mechanism?
+  if (nearbyFood.length > 0) {
+    var targetCell = nearbyFood[0];
+    changeCellType(targetCell, 'empty');
+    if (isNaN(cell.nutrition)) {
+      // TODO: Could food have different kinds of nutritional value?
+      cell.nutrition = 1;
+    } else {
+      cell.nutrition += 1;
+    }
+    return {
+      instigator: cell.id,
+      source: [cell.id],
+      target: [targetCell.id],
+      event: 'eat',
+      details: 'Food eaten. nutrition increased to ' + cell.nutrition
+    };
+  }
+}
+
+function starvation(cell, neighbors, changeCellType) {
+  if (cell.living && cell.nutrition < 1) {
+    changeCellType(cell, 'empty');
+    return {
+      instigator: cell.id,
+      source: [cell.id],
+      target: [cell.id],
+      event: 'death',
+      details: 'starved'
+    };
+  }
+}
+
 function takesSpace(cell) {
   return cell.takesSpace;
 }
@@ -106,11 +154,18 @@ function doesNotTakeSpace(cell) {
   return !cell.takesSpace;
 }
 
+function isFood(cell) {
+  return cell.type === 'food';
+}
+
 module.exports = {
   solitude,
   overpopulation,
   populate,
   selfDestruct,
   poops,
-  aging
+  aging,
+  eating,
+  metabolism,
+  starvation
 };

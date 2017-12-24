@@ -6,8 +6,17 @@ module.exports = {
     mapSymbol: 'o',
     type: 'populated',
     takesSpace: true,
+    nutrition: 3,
     living: true,
-    rules: [rules.aging, rules.solitude, rules.overpopulation, rules.poops]
+    rules: [
+      rules.aging,
+      // rules.solitude,
+      // rules.overpopulation,
+      rules.eating,
+      rules.metabolism,
+      rules.starvation,
+      rules.poops
+    ]
   },
   x: {
     mapSymbol: 'x',

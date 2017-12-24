@@ -8,6 +8,7 @@ var compact = require('lodash.compact');
 var d3 = require('d3-selection');
 var renderCells = require('./dom/render-cells');
 var renderLogs = require('./dom/render-logs');
+var handleError = require('handle-error-web');
 
 var initialMap = `
       xoxox
@@ -18,6 +19,8 @@ var initialMap = `
     `;
 
 (function go() {
+  window.onerror = reportTopLevelError;
+
   var accumulatedLogs;
   var automaton = Automaton({
     cellMap: initialMap,
@@ -70,4 +73,8 @@ function render({ cells, logs, latestLogs }) {
 function renderControls({ onStep, onGeneration }) {
   d3.select('#step-button').on('click', onStep);
   d3.select('#generation-button').on('click', onGeneration);
+}
+
+function reportTopLevelError(msg, url, lineNo, columnNo, error) {
+  handleError(error);
 }

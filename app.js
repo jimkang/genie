@@ -11,11 +11,11 @@ var renderLogs = require('./dom/render-logs');
 var handleError = require('handle-error-web');
 
 var initialMap = `
-      xoxox
-      xxfox
-      foxxo
-      oopxx
-      oxxxo
+      xoxvx
+      xxmox
+      moxxo
+      ovpxx
+      oxvxo
     `;
 
 (function go() {

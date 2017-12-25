@@ -1,4 +1,5 @@
 var pluck = require('lodash.pluck');
+var curry = require('lodash.curry');
 
 function solitude(cell, neighbors, changeCellType) {
   var log;
@@ -49,7 +50,7 @@ function overpopulation(cell, neighbors, changeCellType) {
 
 function populate(cell, neighbors, changeCellType) {
   var log;
-  var livingNeighbors = neighbors.filter(isAlive);
+  var livingNeighbors = neighbors.filter(isAPerson);
   if (livingNeighbors.length >= 3) {
     changeCellType(cell, 'person');
     log = {
@@ -61,6 +62,26 @@ function populate(cell, neighbors, changeCellType) {
     };
   }
   return log;
+}
+
+function fertilization(cell, neighbors, changeCellType) {
+  var nearbyPoo = neighbors.filter(isPoo);
+  if (isPoo(cell)) {
+    nearbyPoo.push(cell);
+  }
+  if (nearbyPoo.length >= 3) {
+    var fertilizers = nearbyPoo.slice(0, 3);
+    fertilizers.forEach(curry(changeToEmpty)(changeCellType));
+    changeCellType(cell, 'plant');
+
+    return {
+      instigator: cell.id,
+      sources: [pluck(fertilizers, 'id')],
+      targets: [cell.id],
+      event: 'birth',
+      details: 'fertilizer critical mass grew plant'
+    };
+  }
 }
 
 function selfDestruct(cell, neighbors, changeCellType) {
@@ -77,21 +98,29 @@ function selfDestruct(cell, neighbors, changeCellType) {
 }
 
 function poops(cell, neighbors, changeCellType) {
-  var log;
   var unpopulatedNeighbors = neighbors.filter(doesNotTakeSpace);
   if (unpopulatedNeighbors.length > 0) {
     // TODO: Pick from neighbors at random.
     var targetCell = unpopulatedNeighbors[0];
     changeCellType(targetCell, 'poo');
-    log = {
+    return {
       instigator: cell.id,
       sources: [cell.id],
       targets: [targetCell.id],
       event: 'poop',
       details: 'pooped'
     };
+  } else {
+    // TODO: Corpse?
+    changeCellType(cell, 'empty');
+    return {
+      instigator: cell.id,
+      sources: [cell.id],
+      targets: [cell.id],
+      event: 'death',
+      details: 'died because there was nowhere to poop'
+    };
   }
-  return log;
 }
 
 function metabolism(cell) {
@@ -146,8 +175,12 @@ function takesSpace(cell) {
   return cell.takesSpace;
 }
 
-function isAlive(cell) {
-  return cell.living;
+// function isAlive(cell) {
+//   return cell.living;
+// }
+
+function isAPerson(cell) {
+  return cell.type === 'person';
 }
 
 function doesNotTakeSpace(cell) {
@@ -155,7 +188,15 @@ function doesNotTakeSpace(cell) {
 }
 
 function isFood(cell) {
-  return cell.type === 'food';
+  return cell.type === 'meat' || cell.type === 'plant';
+}
+
+function isPoo(cell) {
+  return cell.type === 'poo';
+}
+
+function changeToEmpty(changeFn, cell) {
+  changeFn(cell, 'empty');
 }
 
 module.exports = {
@@ -167,5 +208,6 @@ module.exports = {
   aging,
   eating,
   metabolism,
-  starvation
+  starvation,
+  fertilization
 };

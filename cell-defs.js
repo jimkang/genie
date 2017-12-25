@@ -23,20 +23,31 @@ module.exports = {
     type: 'empty',
     takesSpace: false,
     living: false,
-    rules: [rules.populate]
+    rules: [rules.populate, rules.fertilization]
   },
   p: {
     mapSymbol: 'p',
     type: 'poo',
     takesSpace: true,
     living: false,
-    rules: [rules.aging, adjustableRules.Decay({ lifeSpan: 3 })]
+    rules: [
+      rules.aging,
+      adjustableRules.Decay({ lifeSpan: 3 }),
+      rules.fertilization
+    ]
   },
-  f: {
-    mapSymbol: 'f',
-    type: 'food',
+  m: {
+    mapSymbol: 'm',
+    type: 'meat',
     takesSpace: true,
     living: false,
     rules: [rules.aging, adjustableRules.Decay({ lifeSpan: 2 })]
+  },
+  v: {
+    mapSymbol: 'v',
+    type: 'plant',
+    takesSpace: true,
+    living: true,
+    rules: [rules.aging, adjustableRules.Decay({ lifeSpan: 4 })]
   }
 };

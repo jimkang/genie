@@ -15,7 +15,8 @@ var crown = Crown({
 var symbolsForTypes = {
   person: '🚶',
   poo: '💩',
-  food: '🍔'
+  meat: '🍖',
+  plant: '🌿'
 };
 
 const cellSize = 100;

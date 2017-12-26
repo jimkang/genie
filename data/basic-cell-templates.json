@@ -1,0 +1,72 @@
+{
+  "o": {
+    "mapSymbol": "o",
+    "type": "person",
+    "takesSpace": true,
+    "nutrition": 3,
+    "living": true,
+    "rules": [
+      "aging",
+      "eating",
+      "metabolism",
+      "starvation",
+      "poops"
+    ]
+  },
+  "x": {
+    "mapSymbol": "x",
+    "type": "empty",
+    "takesSpace": false,
+    "living": false,
+    "rules": [
+      "populate",
+      "fertilization"
+    ]
+  },
+  "p": {
+    "mapSymbol": "p",
+    "type": "poo",
+    "takesSpace": true,
+    "living": false,
+    "rules": [
+      "aging",
+      {
+        "rule": "Decay",
+        "params": {
+          "lifeSpan": 3
+        }
+      },
+      "fertilization"
+    ]
+  },
+  "m": {
+    "mapSymbol": "m",
+    "type": "meat",
+    "takesSpace": true,
+    "living": false,
+    "rules": [
+      "aging",
+      {
+        "rule": "Decay",
+        "params": {
+          "lifeSpan": 2
+        }
+      }
+    ]
+  },
+  "v": {
+    "mapSymbol": "v",
+    "type": "plant",
+    "takesSpace": true,
+    "living": true,
+    "rules": [
+      "aging",
+      {
+        "rule": "Decay",
+        "params": {
+          "lifeSpan": 4
+        }
+      }
+    ]
+  }
+}

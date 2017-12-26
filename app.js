@@ -1,6 +1,6 @@
 var Automaton = require('cellular-automaton');
 var sortCellsByDist = require('sort-cells-by-dist');
-var CellDefs = require('./cell-defs');
+var loadCellDefs = require('./load-cell-defs');
 var curry = require('lodash.curry');
 var flatten = require('lodash.flatten');
 var pluck = require('lodash.pluck');
@@ -12,6 +12,8 @@ var handleError = require('handle-error-web');
 var RouteState = require('route-state');
 var rules = require('./rules');
 var adjustableRules = require('./adjustable-rules');
+var basicCellTemplates = require('./data/basic-cell-templates.json');
+var sb = require('standard-bail')();
 
 var initialMap = `
       xoxxxvxxx
@@ -23,11 +25,27 @@ var initialMap = `
 
 (function go() {
   window.onerror = reportTopLevelError;
+  var routeState = RouteState({
+    followRoute,
+    windowObject: window
+  });
 
+  routeState.routeFromHash();
+})();
+
+function followRoute(routeDict) {
+  var templateSrc = routeDict.cellDefSrc || basicCellTemplates;
+  loadCellDefs(
+    { rules, adjustableRules, templateSrc },
+    sb(startAutomaton, handleError)
+  );
+}
+
+function startAutomaton(cellDefs) {
   var accumulatedLogs;
   var automaton = Automaton({
     cellMap: initialMap,
-    cellDefs: CellDefs({ rules, adjustableRules }),
+    cellDefs,
     orderingFn: curry(sortCellsByDist)({ col: 0, row: 0 })
   });
 
@@ -56,7 +74,7 @@ var initialMap = `
       latestLogs: logs
     });
   }
-})();
+}
 
 function render({ cells, logs, latestLogs }) {
   var instigatorId;

@@ -1,6 +1,6 @@
 var Automaton = require('cellular-automaton');
 var sortCellsByDist = require('sort-cells-by-dist');
-var cellDefs = require('./cell-defs');
+var CellDefs = require('./cell-defs');
 var curry = require('lodash.curry');
 var flatten = require('lodash.flatten');
 var pluck = require('lodash.pluck');
@@ -9,12 +9,15 @@ var d3 = require('d3-selection');
 var renderCells = require('./dom/render-cells');
 var renderLogs = require('./dom/render-logs');
 var handleError = require('handle-error-web');
+var RouteState = require('route-state');
+var rules = require('./rules');
+var adjustableRules = require('./adjustable-rules');
 
 var initialMap = `
-      xoxvx
-      xxmox
+      xoxxxvxxx
+      xxmxxxxoxx
       moxxo
-      ovpxx
+      xxovpxxxxx
       oxvxo
     `;
 
@@ -24,7 +27,7 @@ var initialMap = `
   var accumulatedLogs;
   var automaton = Automaton({
     cellMap: initialMap,
-    cellDefs,
+    cellDefs: CellDefs({ rules, adjustableRules }),
     orderingFn: curry(sortCellsByDist)({ col: 0, row: 0 })
   });
 

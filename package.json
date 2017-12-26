@@ -18,6 +18,7 @@
     "call-next-tick": "^2.0.1",
     "cellular-automaton": "^1.0.4",
     "csscrown": "^1.0.0",
+    "d3-queue": "^3.0.7",
     "d3-selection": "^1.2.0",
     "handle-error-web": "^1.0.1",
     "lodash.flatten": "^4.4.0",

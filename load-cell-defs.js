@@ -1,6 +1,6 @@
 var request = require('basic-browser-request');
-var sb = require('standard-bail')();
 var callNextTick = require('call-next-tick');
+var RoteResponse = require('./rote-response');
 
 function loadCellDefs({ rules, adjustableRules, templateSrc }, done) {
   if (typeof templateSrc === 'object') {
@@ -8,27 +8,17 @@ function loadCellDefs({ rules, adjustableRules, templateSrc }, done) {
   } else if (typeof templateSrc === 'string') {
     request(
       { url: templateSrc, method: 'GET', json: true },
-      sb(processRes, done)
+      RoteResponse({
+        url: templateSrc,
+        transformBody: convertTemplatesToDefs,
+        done
+      })
     );
   } else {
     callNextTick(
       done,
       new Error('Do not understand templateSrc: ' + templateSrc)
     );
-  }
-
-  function processRes(res, body) {
-    if (!body) {
-      done(new Error('Empty cell defs received from: ' + templateSrc));
-    } else if (res.statusCode < 200 || res.statusCode > 299) {
-      done(
-        new Error(
-          'statusCode ' + res.statusCode + ' received from: ' + templateSrc
-        )
-      );
-    } else {
-      done(null, convertTemplatesToDefs(body));
-    }
   }
 
   function convertTemplatesToDefs(dict) {

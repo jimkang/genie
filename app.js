@@ -14,14 +14,8 @@ var rules = require('./rules');
 var adjustableRules = require('./adjustable-rules');
 var basicCellTemplates = require('./data/basic-cell-templates.json');
 var sb = require('standard-bail')();
-
-var initialMap = `
-      xoxxxvxxx
-      xxmxxxxoxx
-      moxxo
-      xxovpxxxxx
-      oxvxo
-    `;
+var getMap = require('./get-map');
+var queue = require('d3-queue').queue;
 
 (function go() {
   window.onerror = reportTopLevelError;
@@ -35,16 +29,16 @@ var initialMap = `
 
 function followRoute(routeDict) {
   var templateSrc = routeDict.cellDefSrc || basicCellTemplates;
-  loadCellDefs(
-    { rules, adjustableRules, templateSrc },
-    sb(startAutomaton, handleError)
-  );
+  var q = queue();
+  q.defer(loadCellDefs, { rules, adjustableRules, templateSrc });
+  q.defer(getMap, routeDict.mapSrc);
+  q.await(sb(startAutomaton, handleError));
 }
 
-function startAutomaton(cellDefs) {
+function startAutomaton(cellDefs, cellMap) {
   var accumulatedLogs;
   var automaton = Automaton({
-    cellMap: initialMap,
+    cellMap,
     cellDefs,
     orderingFn: curry(sortCellsByDist)({ col: 0, row: 0 })
   });

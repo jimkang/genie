@@ -1,5 +1,21 @@
 var d3 = require('d3-selection');
 var accessor = require('accessor')();
+var Zoom = require('d3-zoom');
+var cellsRoot = d3.select('#cells-root');
+
+(function setUpZoom() {
+  var board = d3.select('#board');
+  var zoomLayer = board.select('#board .zoom-layer');
+  var zoom = Zoom.zoom()
+    .scaleExtent([0.1, 4])
+    .on('zoom', zoomed);
+
+  board.call(zoom);
+
+  function zoomed() {
+    zoomLayer.attr('transform', d3.event.transform);
+  }
+})();
 
 var Crown = require('csscrown');
 
@@ -20,8 +36,6 @@ var symbolsForTypes = {
 };
 
 const cellSize = 100;
-
-var cellsRoot = d3.select('#cells-root');
 
 function renderCells({ cells, instigatorId, sourceIds, targetIds }) {
   var cellSel = cellsRoot.selectAll('.cell').data(cells, accessor());

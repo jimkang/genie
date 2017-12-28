@@ -5,11 +5,42 @@ body {
   background-color: #eee;
 }
 
+.hidden {
+  display: none !important;
+  opacity: 0;
+  transition: opacity 1s;
+}
+
 section {
   display: flex;
   flex-wrap: wrap;
-  margin: 1em;
   justify-content: center;
+}
+
+section.game {
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  z-index: 0;
+}
+
+section.game .canvases-container {
+  width: 100%;
+  border: 2px #333 dashed;
+}
+
+section.game .controls {
+  z-index: 1;
+  position: fixed;
+  bottom: 2em;
+}
+
+section.meta {
+  position: absolute;
+  z-index: 2;
+  margin: 1em;
+  background-color: hsla(0, 0%, 0%, 0.1);
 }
 
 .explanation {

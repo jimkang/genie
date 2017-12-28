@@ -5,50 +5,52 @@
 </head>
 <body>
 
-<pre id="status-message" class="hidden">
-</pre>
+<section class="meta">
+  <pre id="status-message" class="hidden">
+  </pre>
 
-<section class="explanation">
-  <h1 class="title">The Genie of Hoisting</h1>
-  <p>Intro text.</p>
-  <h2 class="title">Legend</h2>
-  <ul>
-    <li>You can pan around the board by dragging.</li>
-    <li>You can zoom in and out with either the mouse wheel or pinching.</li>
-    <li>Living cells are represented by circles.</li>
-    <li>The acting cell whose rules were just evaluated will have its square highlighted in light yellow.</li>
-    <li>Source cells for a rule application (e.g. when a cell becomes person as a result of a certain number of neighbors, the source cells are the neighbors) are bordered in blue.</li>
-    <li>Target cells for a rule application (e.g. when a cell dies as a result of a certain number of neighbors, the dying cell is the target) are bordered in red.</li>
-  </ul>
+  <section class="explanation">
+    <h1 class="title">The Genie of Hoisting</h1>
+    <p>Intro text.</p>
+    <h2 class="title">Legend</h2>
+    <ul>
+      <li>You can pan around the board by dragging.</li>
+      <li>You can zoom in and out with either the mouse wheel or pinching.</li>
+      <li>Living cells are represented by circles.</li>
+      <li>The acting cell whose rules were just evaluated will have its square highlighted in light yellow.</li>
+      <li>Source cells for a rule application (e.g. when a cell becomes person as a result of a certain number of neighbors, the source cells are the neighbors) are bordered in blue.</li>
+      <li>Target cells for a rule application (e.g. when a cell dies as a result of a certain number of neighbors, the dying cell is the target) are bordered in red.</li>
+    </ul>
+  </section>
+
+
+  <section>
+    <button id="start-button">Start</button>
+  </section>
 </section>
 
-<section>
-
-<div class="canvases-container">
-  <svg id="board" width="100%" height="1000">
-    <g class="zoom-layer">
-      <g id="cells-root"></g>
-    </g>
-  </svg>
-</div>
-
+<section class="game">
+  <div class="canvases-container">
+    <svg id="board" width="100%" height="640">
+      <g class="zoom-layer">
+        <g id="cells-root"></g>
+      </g>
+    </svg>
+  </div>
 
   <div id="logs-container">
     <h2 class="title">EVENT LOGS</h2>
     <ul id="logs-root">
     </ul>
   </div>
+
+  <section class="controls">
+    <button id="step-button">Advance one time step</button>
+    <button id="generation-button">Advance to the next generation</button>
+    <button id="show-intro-button">Show intro</button>
+  </section>
 </section>
 
-<section>
-  <button id="step-button">Advance one time step</button>
-  <button id="generation-button">Advance to the next generation</button>
-</section>
-
-<br />
-<br />
-<br />
-<br />
 
 <script src="index.js"></script>
 

@@ -37,6 +37,10 @@ function loadCellDefs({ rules, adjustableRules, templateSrc }, done) {
     } else if (typeof rule === 'object') {
       let ctor = adjustableRules[rule.rule];
       return ctor(rule.params);
+    } else if (typeof rule === 'function') {
+      return rule;
+    } else {
+      throw new Error('Rule type unknown.');
     }
   }
 }

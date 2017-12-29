@@ -40,7 +40,9 @@ section.meta {
   position: absolute;
   z-index: 2;
   margin: 1em;
-  background-color: hsla(0, 0%, 0%, 0.1);
+  color: white;
+  background-color: hsla(0, 0%, 0%, 0.8);
+  padding: 2em;  
 }
 
 .explanation {
